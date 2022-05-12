@@ -25,5 +25,10 @@
       }
     },
   ],
-  "java.test.defaultConfig": "WPIlibUnitTests"
+  "java.test.defaultConfig": "WPIlibUnitTests",
+  "githubPullRequests.remotes": [
+    "origin",
+    "upstream",
+    "https://github.com/Jez-Sanchez/TestingWithGitHub1.git"
+  ]
 }
