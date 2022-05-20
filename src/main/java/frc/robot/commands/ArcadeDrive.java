@@ -4,28 +4,20 @@
 
 package frc.robot.commands;
 
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.RollerSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.DriveTrain;
 
-/** An example command that uses an example subsystem. */
-public class Roller extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final RollerSubsystem m_subsystem;
+public class ArcadeDrive extends CommandBase {
   private double speed;
-
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param m_exampleSubsystem The subsystem used by this command.
-   */
-  public Roller(RollerSubsystem rollerSubsystem, double speed) {
-    this.m_subsystem = rollerSubsystem;
-    this.speed = speed;
+  private final DriveTrain DriveTrain;
+  /** Creates a new ArcadeDrive. */
+  public ArcadeDrive(DriveTrain driveTrain, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(rollerSubsystem);
+    this.speed = speed;
+    this.DriveTrain = driveTrain;
+    addRequirements(driveTrain);
   }
-
 
   // Called when the command is initially scheduled.
   @Override
@@ -34,13 +26,15 @@ public class Roller extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.rollerSubsystem.setRollerMotors(speed);
+    double forward = RobotContainer.controller1.getLeftY() * speed;
+    double turn = RobotContainer.controller1.getRightX() * speed;
+    RobotContainer.driveTrain.ArcadeDrive(forward, turn);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.rollerSubsystem.setRollerMotors(0);
+    RobotContainer.driveTrain.ArcadeDrive(0, 0);
   }
 
   // Returns true when the command should end.

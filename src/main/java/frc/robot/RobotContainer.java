@@ -6,7 +6,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.Roller;
+import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.RollerSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -20,14 +22,17 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final static RollerSubsystem rollerSubsystem = new RollerSubsystem();
-  private XboxController controller1 = new XboxController(0);
+  public final static DriveTrain driveTrain = new DriveTrain();
+  public static XboxController controller1 = new XboxController(0);
 
-  //private final Roller m_autoCommand = new Roller(rollerSubsystem);
+  private final Roller m_autoCommand = new Roller(rollerSubsystem, 0);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    rollerSubsystem.setDefaultCommand(new Roller(rollerSubsystem, 0));
+    driveTrain.setDefaultCommand(new ArcadeDrive(driveTrain, 0.3));
   }
 
   /**
@@ -37,11 +42,11 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(controller1, 3).whenHeld(new Roller(rollerSubsystem,0.4));
+    new JoystickButton(controller1, 3).whenHeld(new Roller(rollerSubsystem, 0.5));
   }
 
-  // public Command getAutonomousCommand() {
-  //   // An ExampleCommand will run in autonomous
-  //   return m_autoCommand;
-  // }
+  public Command getAutonomousCommand() {
+    // An ExampleCommand will run in autonomous
+    return m_autoCommand;
+  }
 }
